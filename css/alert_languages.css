@@ -1,0 +1,24 @@
+#alert_languages_fields input
+{
+  display: inline-block;
+  margin: 5px;
+}
+
+#alert_languages_fields
+{
+  margin-left: -5px;
+}
+
+#alert_languages_fields div
+{
+  clear: both;
+  float: left;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#alert_languages_buttons
+{
+  padding-top: 25px;
+  clear: both;
+}
