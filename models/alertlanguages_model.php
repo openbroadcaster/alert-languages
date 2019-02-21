@@ -5,6 +5,8 @@ class AlertLanguagesModel extends OBFModel
 
   public function save_alerts($alerts)
   {
+    // TODO only allow audio media?
+  
     if(!$alerts || !is_array($alerts)) return [false, 'Invalid alerts.'];
   
     // create our demo language if needed
@@ -38,10 +40,16 @@ class AlertLanguagesModel extends OBFModel
     $this->db->where('language_id',1);
     $rows = $this->db->get('module_alert_languages_alerts');
     
+    $media_model = $this->load->model('media');
+    
     $alerts = [];
     
-    foreach($rows as $row) $alerts[] = ['alert_name'=>$row['alert_name'],'media_id'=>$row['media_id']];
-    
+    foreach($rows as $row)
+    {
+      $media = $media_model('get_by_id',$row['media_id']);
+      if(!$media) continue;
+      $alerts[] = ['alert_name'=>$row['alert_name'],'media_id'=>$row['media_id'],'media_type'=>$media['type'],'media_format'=>$media['format']];
+    }
     return [true,'Alerts.',$alerts];
   }
 

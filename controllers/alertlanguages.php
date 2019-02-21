@@ -6,11 +6,11 @@ class AlertLanguages extends OBFController
   {
     parent::__construct();
     $this->model = $this->load->model('AlertLanguages');
+    $this->user->require_permission('alert_languages_module');
   }
 
   public function get_alerts()
   {
-    $this->user->require_permission('alert_languages_module');
     return [true,'Alerts', $this->model('get_alerts')[2]];
   }
   
