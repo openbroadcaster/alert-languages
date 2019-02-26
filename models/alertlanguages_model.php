@@ -48,7 +48,15 @@ class AlertLanguagesModel extends OBFModel
     {
       $media = $media_model('get_by_id',$row['media_id']);
       if(!$media) continue;
-      $alerts[] = ['alert_name'=>$row['alert_name'],'media_id'=>$row['media_id'],'media_type'=>$media['type'],'media_format'=>$media['format']];
+      
+      // get filesize
+      if(!empty($media['is_archived'])) $filerootdir=OB_MEDIA_ARCHIVE;
+      elseif(!empty($media['is_approved'])) $filerootdir=OB_MEDIA;
+      else $filerootdir=OB_MEDIA_UPLOADS;
+      $fullfilepath=$filerootdir.'/'.$media['file_location'][0].'/'.$media['file_location'][1].'/'.$media['filename'];
+      $filesize=filesize($fullfilepath);
+      
+      $alerts[] = ['alert_name'=>$row['alert_name'],'media_id'=>$row['media_id'],'media_type'=>$media['type'],'media_format'=>$media['format'],'media_filesize'=>$filesize,'media_hash'=>$media['file_hash']];
     }
     return [true,'Alerts.',$alerts];
   }
