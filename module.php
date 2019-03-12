@@ -24,6 +24,7 @@ class AlertLanguagesModule extends OBFModule
       $this->db->query('CREATE TABLE IF NOT EXISTS `module_alert_languages` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
+  `code` varchar(50) NOT NULL UNIQUE,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;');
       

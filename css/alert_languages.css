@@ -22,3 +22,26 @@
   padding-top: 25px;
   clear: both;
 }
+
+#alert_languages_langs td, #alert_languages_langs th {
+  padding-right: 8px;
+  max-width: 500px;
+  text-align: left;
+}
+
+#alert_languages_langs th:first-child, #alert_languages_langs td:first-child {
+  min-width: 80px;
+}
+
+#alert_languages_langs th:nth-child(2), #alert_languages_langs td:nth-child(2) {
+  min-width: 300px;
+}
+
+#alert_languages_langs tr {
+  padding-bottom: 6px;
+  height: 28px;
+}
+
+#alert_languages_langs {
+  margin-bottom: 8px;
+}

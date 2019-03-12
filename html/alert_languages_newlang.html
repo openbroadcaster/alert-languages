@@ -1,0 +1,23 @@
+<div data-tns="New Language">
+  <obwidget id="alert_languages_lang_message" type="message"></obwidget>
+  
+  <fieldset>
+    <legend data-t>New Language</legend>
+    
+    <div class="fieldrow">
+      <label class="required" data-t>Name</label>
+      <input type="text" id="alert_languages_lang_name">
+    </div>
+    <div class="fieldrow">
+      <label class="required" data-t>Code</label>
+      <input type="text" id="alert_languages_lang_code">
+    </div>
+  </fieldset>
+  
+  <fieldset>
+    <div class="fieldrow">
+      <button class="add" data-t onclick="OBModules.AlertLanguages.saveLanguage();">Save</button>
+      <button data-t onclick="OB.UI.closeModalWindow();">Close</button>
+    </div>  
+  </fieldset>
+</div>
