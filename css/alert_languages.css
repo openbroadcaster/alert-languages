@@ -45,3 +45,24 @@
 #alert_languages_langs {
   margin-bottom: 8px;
 }
+
+#alert_languages_alerts td, #alert_languages_alerts th {
+  padding-right: 8px;
+  max-width: 500px;
+  text-align: left;
+}
+
+#alert_languages_langs th:nth-child(-n+2), 
+#alert_languages_alerts td:nth-child(-n+2) {
+  min-width: 200px;
+}
+
+#alert_languages_alerts tr {
+  padding-bottom: 6px;
+  height: 28px;
+}
+
+#alert_languages_alerts td:nth-child(4) {
+  border-style: solid;
+  min-width: 300px;
+}

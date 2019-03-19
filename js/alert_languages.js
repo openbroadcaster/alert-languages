@@ -13,17 +13,11 @@ OBModules.AlertLanguages = new function()
     OB.UI.replaceMain('modules/alert_languages/alert_languages.html');
     
     OBModules.AlertLanguages.getLanguages();
-    
-    OB.API.post('alertlanguages','get_alerts',{},function(response)
-    {
-      $.each(response.data,function(index,alert)
-      {
-        OBModules.AlertLanguages.addAlertField(alert.alert_name,alert.media_id);
-      });
-    });
   }
   
   this.getLanguages = function () {
+    $('#alert_languages_langs').empty();
+    
     OB.API.post('alertlanguages', 'get_languages', {}, function (response) {
       if (!response.status) {
         $('#alert_languages_message').obWidget('error', response.msg);
@@ -39,53 +33,32 @@ OBModules.AlertLanguages = new function()
       table.append(table_h);
       
       $(response.data).each(function (index, element) {
-        var item = $('<tr/>');
+        var item = $('<tr/>').attr('data-id', element.id);
         item.append($('<td/>').text(element.code));
         item.append($('<td/>').text(element.name));
         item.append($('<td/>').text("[ ]"));
-        item.append($('<td/>').text("[ ]"));
-        item.append($('<td/>').text("[ ]"));
+        
+        item.append($('<td/>').append($('<a/>')
+          .text('View')
+          .click(function () {
+            var lang_id = $(this).parents('tr').first().attr('data-id');
+            OBModules.AlertLanguages.viewLanguage(lang_id);
+          })
+          .addClass('button')));
+        
+        item.append($('<td/>').append($('<a/>')
+          .text('Delete')
+          .click(function () {
+            var lang_id = $(this).parents('tr').first().attr('data-id');
+            OBModules.AlertLanguages.deleteLanguage(lang_id);
+          })
+          .addClass('button')
+          .addClass('delete')));
         
         table.append(item);
       });
       
       $('#alert_languages_langs').append(table);
-    });
-  }
-  
-  this.addAlertField = function(name,id)
-  {
-    $div = $('<div class="droppable_target_media" />');
-    $div.append( $('<input type="text" placeholder="Alert Name" />').val(name) );
-    $div.append( $('<input type="number" placeholder="Media ID" />').val(id) );
-    $('#alert_languages_fields').append($div);
-    
-    $('#alert_languages_fields .droppable_target_media').last().droppable({
-      drop: function(event, ui) 
-      {
-        if($(ui.draggable).attr('data-mode')=='media') 
-        {
-          $(this).find('input[type=number]').val($(ui.draggable).attr('data-id'));
-        }
-      }
-    });
-  }
-
-  this.saveAlerts = function()
-  {
-    alerts = [];
-  
-    $('#alert_languages_fields > div').each(function(index, fields)
-    {
-      var name = $(fields).find('input[type=text]').val();
-      var id = $(fields).find('input[type=number]').val();
-      if(name && id) alerts.push( {'name': name, 'id': id} );
-    });
-    
-    OB.API.post('alertlanguages','save_alerts',{'alerts': alerts},function(response)
-    {
-      OBModules.AlertLanguages.open();
-      OB.UI.alert('Demo Language alerts saved.');
     });
   }
   
@@ -106,6 +79,68 @@ OBModules.AlertLanguages = new function()
       } else {
         $('#alert_languages_lang_message').obWidget('error', response.msg);
       }
+    });
+  }
+  
+  this.viewLanguage = function (lang_id) {
+    OB.UI.replaceMain('modules/alert_languages/alert_languages_view.html');
+    $('#alert_languages_current_id').val(lang_id);
+    
+    $('#alert_languages_alerts').empty();
+    $.getJSON('modules/alert_languages/html/alerts.json', function (data) {
+      var table = $('<table/>');
+      
+      var table_h = $('<tr/>');
+      table_h.append($('<th/>').text('Tier I'));
+      table_h.append($('<th/>').text('Tier II'));
+      table_h.append($('<th/>').text('Event Code'));
+      table_h.append($('<th/>').text('Media Item'));
+      table.append(table_h);
+      
+      $(data).each(function (index, element) {
+        var item = $('<tr/>').attr('data-code', element.code);
+        item.append($('<td/>').text(element.tier1));
+        item.append($('<td/>').text(element.tier2));
+        item.append($('<td/>').text(element.code));
+        item.append($('<td/>').text('[ TODO ]'));
+        table.append(item);
+      });
+      
+      $('#alert_languages_alerts').append(table);
+    });
+    
+    var post = {};
+    OB.API.post('alertlanguages', 'view_language', post, function (response) {
+      var msg_result = (response.status ? 'success' : 'error');
+      if (msg_result == 'error') {
+        OBModules.AlertLanguages.open();
+        
+        $('#alert_languages_message').obWidget(msg_result, response.msg);
+      }
+      
+      // Update data in single language view.
+    })
+  }
+  
+  this.deleteLanguage = function (lang_id) {
+    OB.UI.confirm({
+      text: "Are you sure you want to delete this alert language?",
+      okay_class: "delete",
+      callback: function () {
+        OBModules.AlertLanguages.deleteLanguageConfirm(lang_id);
+      }
+    });
+  }
+  
+  this.deleteLanguageConfirm = function (lang_id) {
+    var post = {};
+    post.lang_id = lang_id;
+    
+    OB.API.post('alertlanguages', 'delete_language', post, function (response) {
+      var msg_result = (response.status ? 'success' : 'error');
+      $('#alert_languages_message').obWidget(msg_result, response.msg);
+      
+      OBModules.AlertLanguages.getLanguages();
     });
   }
 }

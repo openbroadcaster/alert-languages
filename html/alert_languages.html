@@ -4,18 +4,13 @@
 
 <obwidget id="alert_languages_message" type="message"></obwidget>
 
-<div id="alert_languages_langs"></div>
+<fieldset>
+  <div class="fieldrow">
+    <div id="alert_languages_langs"></div>
+  </div>
 
-<div id="alert_languages_lang_buttons">
-  <button class="add" onClick="OBModules.AlertLanguages.addLanguage();">Add Language</button>
-</div>
-
-<h2>Alerts</h2>
-
-<div id="alert_languages_fields"></div>
-
-<div id="alert_languages_buttons">
-  <button class="add" onClick="OBModules.AlertLanguages.saveAlerts();">Save</button>
-  <button onClick="OBModules.AlertLanguages.addAlertField();">Add Alert</button>
-</div>
+  <div class="fieldrow">
+    <button class="add" onClick="OBModules.AlertLanguages.addLanguage();">Add Language</button>
+  </div>
+</fieldset>
 

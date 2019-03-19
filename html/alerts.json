@@ -1,0 +1,26 @@
+[
+    { 
+      "tier1": "administration", 
+      "tier2": "", 
+      "code":  "admin" 
+    },
+    { 
+      "tier1": "air quality", 
+      "tier2": "", 
+      "code":  "airQuality" 
+    },
+    { 
+      "tier1": "animal health", 
+      "tier2": "", 
+      "code":  "animalHealth" 
+    },
+    { "tier1": "animal health", 
+      "tier2": "animal disease", 
+      "code":  "animalDiseas" 
+    },
+    {
+      "tier1": "animal health",
+      "tier2": "animal feed",
+      "code":  "animalFeed"
+    }
+]
