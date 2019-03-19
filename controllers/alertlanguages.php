@@ -44,6 +44,28 @@ class AlertLanguages extends OBFController
   }
   
   public function view_language () {
-    return [true, ''];
+    if (!$this->user->check_permission('alert_languages_module')) {
+      return [false, 'User does not have permission to view language alerts.'];
+    }
+    
+    return $this->model('view_language', $this->data('lang_id'));
+  }
+  
+  public function update_alerts () {
+    if (!$this->user->check_permission('alert_languages_module')) {
+      return [false, 'User does not have permission to update alerts.'];
+    }
+    
+    $data = array(
+      'language' => $this->data['language'],
+      'alerts'   => $this->data['alerts']
+    );
+    
+    $result = $this->model('validate_alerts', $data);
+    if (!$result[0]) {
+      return $result;
+    }
+    
+    return $this->model('update_alerts', $data);
   }
 }

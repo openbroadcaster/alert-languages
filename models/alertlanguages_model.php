@@ -39,10 +39,52 @@ class AlertLanguagesModel extends OBFModel
   
   public function delete_language ($lang_id) {
     $this->db->where('id', $lang_id);
-    $result = $this->db->delete('module_alert_languages');
+    $this->db->delete('module_alert_languages');
     
-    // TODO: Remove associated alerts as well once implemented
+    $this->db->where('language_id', $lang_id);
+    $this->db->delete('module_alert_languages_alerts');
     
-    return [true, 'Successfully removed alert language.', $result];
+    return [true, 'Successfully removed alert language.'];
+  }
+  
+  public function view_language ($lang_id) {
+    $this->db->where('language_id', $lang_id);
+    $result = $this->db->get('module_alert_languages_alerts');
+    
+    return [true, 'Successfully loaded alerts.', $result];
+  }
+  
+  public function validate_alerts ($data) {
+    $this->db->where('id', $data['language']);
+    if (!$this->db->get('module_alert_languages')) {
+      return [false, 'Invalid language ID provided.'];
+    }
+  
+    foreach ($data['alerts'] as $alert) {
+      $this->db->where('id', $alert['media']);
+      if (!$this->db->get('media')) {
+        return [false, 'Invalid media ID provided to alert.'];
+      }
+    }
+        
+    // TODO: Possibly ensure that all event codes provided are valid.
+    
+    return [true, 'Successfully validated alerts.'];
+  }
+  
+  public function update_alerts ($data) {
+    $this->db->where('language_id', $data['language']);
+    $this->db->delete('module_alert_languages_alerts');
+    
+    foreach ($data['alerts'] as $alert) {
+      $item = array(
+        'language_id' => $data['language'],
+        'alert_name'  => $alert['event'],
+        'media_id'    => $alert['media']
+      );
+      $this->db->insert('module_alert_languages_alerts', $item);
+    }
+    
+    return [true, 'Successfully updated alerts.'];
   }
 }

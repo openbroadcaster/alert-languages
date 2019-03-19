@@ -63,6 +63,11 @@
 }
 
 #alert_languages_alerts td:nth-child(4) {
-  border-style: solid;
+  /* border-style: solid; */
   min-width: 300px;
+}
+
+#alert_languages_alerts td p {
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
