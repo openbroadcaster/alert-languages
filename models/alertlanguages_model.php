@@ -34,6 +34,15 @@ class AlertLanguagesModel extends OBFModel
   
   public function get_languages () {
     $result = $this->db->get('module_alert_languages');
+    
+    foreach ($result as $index => $lang) {
+      // TODO: Is there a way to use COUNT() in OBDB so I can use a JOIN 
+      // instead of this loop?
+      $this->db->where('language_id', $lang['id']);
+      $media = $this->db->get('module_alert_languages_alerts');
+      $result[$index]['media_items'] = count($media);
+    }
+    
     return [true, 'Successfully loaded alert languages.', $result];
   }
   
@@ -48,9 +57,16 @@ class AlertLanguagesModel extends OBFModel
   }
   
   public function view_language ($lang_id) {
-    $this->db->where('language_id', $lang_id);
+    $this->db->leftjoin('media', 'module_alert_languages_alerts.media_id', 'media.id');
+    $this->db->where('module_alert_languages_alerts.language_id', $lang_id);
+    $this->db->what('module_alert_languages_alerts.id');
+    $this->db->what('module_alert_languages_alerts.language_id');
+    $this->db->what('module_alert_languages_alerts.alert_name');
+    $this->db->what('module_alert_languages_alerts.media_id');
+    $this->db->what('media.title');
+    $this->db->what('media.artist');
     $result = $this->db->get('module_alert_languages_alerts');
-    
+
     return [true, 'Successfully loaded alerts.', $result];
   }
   

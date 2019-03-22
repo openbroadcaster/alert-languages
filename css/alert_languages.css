@@ -39,7 +39,7 @@
 
 #alert_languages_langs tr {
   padding-bottom: 6px;
-  height: 28px;
+  height: 30px;
 }
 
 #alert_languages_langs {
@@ -59,7 +59,7 @@
 
 #alert_languages_alerts tr {
   padding-bottom: 6px;
-  height: 28px;
+  height: 30px;
 }
 
 #alert_languages_alerts td:nth-child(4) {

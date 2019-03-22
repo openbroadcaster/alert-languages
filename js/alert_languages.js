@@ -29,7 +29,7 @@ OBModules.AlertLanguages = new function()
       var table_h = $('<tr/>');
       table_h.append($('<th/>').text('Code'));
       table_h.append($('<th/>').text('Language Name'));
-      table_h.append($('<th/>').text('#Alerts'));
+      table_h.append($('<th/>').text('Alerts'));
       table_h.append($('<th/>').text(''));
       table_h.append($('<th/>').text(''));
       table.append(table_h);
@@ -38,7 +38,7 @@ OBModules.AlertLanguages = new function()
         var item = $('<tr/>').attr('data-id', element.id);
         item.append($('<td/>').text(element.code));
         item.append($('<td/>').text(element.name));
-        item.append($('<td/>').text("[ ]"));
+        item.append($('<td/>').text(element.media_items));
         
         item.append($('<td/>').append($('<a/>')
           .text('View')
@@ -144,21 +144,22 @@ OBModules.AlertLanguages = new function()
           }
         });  
       });
-    });
-    
-    var post = {};
-    post.lang_id = lang_id;
-    OB.API.post('alertlanguages', 'view_language', post, function (response) {
-      var msg_result = (response.status ? 'success' : 'error');
-      if (msg_result == 'error') {
-        OBModules.AlertLanguages.open();
-        $('#alert_languages_message').obWidget(msg_result, response.msg);
-      }
       
-      $(response.data).each(function (i, e) {
-        var elem = $('#alert_languages_alerts tr[data-code=' + e.alert_name + '] td:nth-child(4)');
-        var label = e.media_id;
-        elem.text(label);
+      var post = {};
+      post.lang_id = lang_id;
+      OB.API.post('alertlanguages', 'view_language', post, function (response) {
+        var msg_result = (response.status ? 'success' : 'error');
+        if (msg_result == 'error') {
+          OBModules.AlertLanguages.open();
+          $('#alert_languages_message').obWidget(msg_result, response.msg);
+        }
+
+        $(response.data).each(function (i, e) {
+          var elem = $('#alert_languages_alerts tr[data-code=' + e.alert_name + '] td:nth-child(4)');
+          var label = e.artist + ' - ' + e.title;
+          elem.attr('data-id', e.media_id);
+          elem.text(label);
+        });
       });
     });
   }
