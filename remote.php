@@ -60,7 +60,7 @@ class AlertLanguagesRemote
 
     // get languages & media IDs for alerts
     $alert_languages_model = $this->load->model('AlertLanguages');
-    echo json_encode([true, 'Alerts', ['Demo Language' => $alert_languages_model('get_alerts')[2]]]);
+    echo json_encode([true, 'Alerts', $alert_languages_model('remote_get_alerts')]);
   }
 }
 

@@ -59,13 +59,26 @@ class AlertLanguagesModel extends OBFModel
   public function view_language ($lang_id) {
     $this->db->leftjoin('media', 'module_alert_languages_alerts.media_id', 'media.id');
     $this->db->where('module_alert_languages_alerts.language_id', $lang_id);
-    $this->db->what('module_alert_languages_alerts.id');
     $this->db->what('module_alert_languages_alerts.language_id');
     $this->db->what('module_alert_languages_alerts.alert_name');
     $this->db->what('module_alert_languages_alerts.media_id');
     $this->db->what('media.title');
     $this->db->what('media.artist');
-    $result = $this->db->get('module_alert_languages_alerts');
+    $this->db->what('media.id');
+    $rows = $this->db->get('module_alert_languages_alerts');
+    
+    $result = array();
+    foreach ($rows as $row) {
+      if ($row['title'] == null) continue;
+      
+      $result[] = array(
+        'language_id' => $row['language_id'],
+        'media_id'    => $row['media_id'],
+        'title'       => $row['title'],
+        'artist'      => $row['artist'],
+        'alert_name'  => $row['alert_name']
+      );
+    }
 
     return [true, 'Successfully loaded alerts.', $result];
   }
@@ -102,5 +115,56 @@ class AlertLanguagesModel extends OBFModel
     }
     
     return [true, 'Successfully updated alerts.'];
+  }
+  
+  public function remote_get_alerts () {
+    $langs = $this->db->get('module_alert_languages');
+    $result = array();
+    foreach ($langs as $lang) {
+      $this->db->leftjoin('media', 'module_alert_languages_alerts.media_id', 'media.id');
+      $this->db->where('module_alert_languages_alerts.language_id', $lang['id']);
+      $this->db->what('module_alert_languages_alerts.alert_name');
+      $this->db->what('module_alert_languages_alerts.media_id');
+      $this->db->what('media.id');
+      $this->db->what('media.type');
+      $this->db->what('media.format');
+      $this->db->what('media.file_hash');
+      $this->db->what('media.is_archived');
+      $this->db->what('media.is_approved');
+      $this->db->what('media.file_location');
+      $this->db->what('media.filename');
+      $this->db->what('media.title');
+      $rows = $this->db->get('module_alert_languages_alerts');;
+      
+      $alerts = array();
+      foreach ($rows as $row) {
+        if ($row['title'] == null) continue;
+        
+        if (!empty($row['is_archived'])) $filerootdir = OB_MEDIA_ARCHIVE;
+        elseif (!empty($row['is_approved'])) $filerootdir = OB_MEDIA;
+        else $filerootdir = OB_MEDIA_UPLOADS;
+        $fullfilepath = $filerootdir . '/' 
+          . $row['file_location'][0] . '/'
+          . $row['file_location'][1] . '/'
+          . $row['filename'];
+        $filesize = filesize($fullfilepath);
+        
+        $alerts[] = array(
+          'alert_name'     => $row['alert_name'],
+          'media_id'       => $row['media_id'],
+          'media_format'   => $row['format'],
+          'media_type'     => $row['type'],
+          'media_filesize' => $filesize,
+          'media_hash'     => $row['file_hash']
+        );
+      }
+      
+      $result[$lang['code']] = array(
+        'name'   => $lang['name'],
+        'alerts' => $alerts
+      );
+    }
+    
+    return $result;
   }
 }

@@ -119,7 +119,6 @@ OBModules.AlertLanguages = new function()
       table_h.append($('<th/>').text('Tier I'));
       table_h.append($('<th/>').text('Tier II'));
       table_h.append($('<th/>').text('Event Code'));
-      table_h.append($('<th/>').text('Media Item'));
       table.append(table_h);
       
       $(data).each(function (index, element) {
@@ -156,9 +155,16 @@ OBModules.AlertLanguages = new function()
 
         $(response.data).each(function (i, e) {
           var elem = $('#alert_languages_alerts tr[data-code=' + e.alert_name + '] td:nth-child(4)');
-          var label = e.artist + ' - ' + e.title;
+          elem.empty();
+          var del_link = $('<a/>')
+              .text('x')
+              .click(function () {
+                OBModules.AlertLanguages.deleteAlert($(this));
+              });
+          var label = ' ' + e.artist + ' - ' + e.title;
           elem.attr('data-id', e.media_id);
-          elem.text(label);
+          elem.append(del_link);
+          elem.append(label);
         });
       });
     });
@@ -203,6 +209,11 @@ OBModules.AlertLanguages = new function()
     });
     
     OBModules.AlertLanguages.viewLanguage($('#alert_languages_current_id').val());
+  }
+  
+  this.deleteAlert = function (item) {
+    $(item).parent().removeAttr('data-id');
+    $(item).parent().text('<no media item>');
   }
 }
   
