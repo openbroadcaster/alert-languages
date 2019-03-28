@@ -25,7 +25,7 @@ OBModules.AlertLanguages = new function()
         $('#alert_languages_message').obWidget('error', response.msg);
       }
       
-      var table   = $('<table/>');
+      var table   = $('<table/>').addClass('table');
       var table_h = $('<tr/>');
       table_h.append($('<th/>').text('Code'));
       table_h.append($('<th/>').text('Language Name'));
