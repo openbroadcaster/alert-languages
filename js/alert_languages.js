@@ -146,7 +146,7 @@ OBModules.AlertLanguages = new function()
         $(response.data).each(function (i, e) {
           var elem = $('#alert_languages_alerts tr[data-code=' + e.alert_name + '] td:nth-child(4)');
           elem.attr('data-id', e.media_id);
-          elem.find('ob-media-input').val(e.media_id);
+          elem.find('ob-media-input').val([e.media_id]);
         });
       });
     });
