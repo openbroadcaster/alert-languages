@@ -15,5 +15,5 @@ Supports indigenous languages.
 
 Supports UTF-8
 
-![ Alert Languages](img/alert-languages ){: .screenshot}
+![ Alert Languages](img/alert-languages.png ){: .screenshot}
 
