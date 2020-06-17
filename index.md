@@ -7,7 +7,8 @@ title: index
 {:toc}
 
 ## Alert Languages module
-{:toc}
+
+![ Alert Languages](img/alert-languages.png ){: .screenshot}
 
 Add language alerts and phrases to servers for automatic ingest into players.
 
@@ -15,5 +16,4 @@ Supports indigenous languages.
 
 Supports UTF-8
 
-![ Alert Languages](img/alert-languages.png ){: .screenshot}
 
