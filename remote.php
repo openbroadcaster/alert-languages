@@ -37,22 +37,22 @@ class AlertLanguagesRemote
       return;
     }
     
-    // validate device id/password
-    $error = json_encode(['status'=>false,'msg'=>'Invalid device ID or password.']);
+    // validate player id/password
+    $error = json_encode(['status'=>false,'msg'=>'Invalid player ID or password.']);
 
-    $device_id = $_POST['id'] ?? null;
-    $device_password = $_POST['pw'] ?? null;
+    $player_id = $_POST['id'] ?? null;
+    $player_password = $_POST['pw'] ?? null;
     
-    if(!$device_id || !$device_password)
+    if(!$player_id || !$player_password)
     {
       echo $error;
       return;
     }
     
-    $devices_model = $this->load->model('Devices');
-    $device = $devices_model('get_one',$device_id);
+    $players_model = $this->load->model('Players');
+    $player = $players_model('get_one',$player_id);
     
-    if(!$device || !password_verify($device_password.OB_HASH_SALT, $device['password']))
+    if(!$player || !password_verify($player_password.OB_HASH_SALT, $player['password']))
     {
       echo $error;
       return;

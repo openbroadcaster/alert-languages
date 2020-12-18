@@ -20,8 +20,8 @@ div
 <h1>Alert Languages Player Integration Test</h1>
 
 <form method="post" action="remote.php">
-<div><label>Device ID: </label><input type="number" name="id"></div>
-<div><label>Device Password: </label><input type="password" name="pw"></div>
+<div><label>Player ID: </label><input type="number" name="id"></div>
+<div><label>Player Password: </label><input type="password" name="pw"></div>
 <div><label> </label><input type="submit"></div>
 </form>
 
