@@ -3,8 +3,8 @@
 class AlertLanguagesModule extends OBFModule
 {
 
-	public $name = 'Alert Languages';
-	public $description = 'Add multi-language support to player alerts.';
+	public $name = 'Alert Languages v1.0';
+	public $description = 'Add multi-language support to OBPlayer CAP alerts.';
 
 	public function callbacks()
 	{
