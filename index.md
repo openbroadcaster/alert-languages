@@ -3,10 +3,11 @@ layout: default
 title: index
 ---
 
+# Alert Languages #
+{:.no_toc}
+
 * TOC
 {:toc}
-
-## Alert Languages module
 
 ![ Alert Languages](img/alert-languages.png ){: .screenshot}
 
