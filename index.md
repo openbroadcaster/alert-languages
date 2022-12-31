@@ -3,17 +3,21 @@ layout: default
 title: index
 ---
 
+<br/>
+
+![ Alert Languages](img/alert-languages.png ){: .screenshot}
+
 # Alert Languages #
 {:.no_toc}
 
 * TOC
 {:toc}
 
-![ Alert Languages](img/alert-languages.png ){: .screenshot}
+Add\Edit language alerts and phrases
 
-Add language alerts and phrases to servers for automatic ingest into players.
+Automatically publish and sync to OBPlayers
 
-Supports indigenous languages.
+## Supports Indigenous languages
 
 Supports UTF-8
 
