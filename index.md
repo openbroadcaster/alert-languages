@@ -3,20 +3,22 @@ layout: default
 title: index
 ---
 
-<br/>
-
-![ Alert Languages](img/alert-languages.png )
+![ Alert Languages](img/alert-language.png )
 # Alert Languages #
 {:.no_toc}
 
 * TOC
 {:toc}
 
-Add\Edit language alerts and phrases to Emergency Alerting Library
+![ Alert Languages](img/alert-languages.png )
 
-Automatically publish and sync to OBPlayers
+Supports 
 
-Supports Indigenous languages and UTF-8 
+- ISO 639-2 
+
+- 7000+ Indigenous languages
+
+- Unicode and UTF8 
 
 
 
